@@ -87,4 +87,40 @@ router.post('/', (req, res) => {
         });
 });
 
+// DELETE for /api/zoos/:id
+// Returns number of records has been deleted
+router.delete('/:id', (req, res) => {
+    db('zoos')
+        .where({ id: req.params.id })
+        .del()
+        .then(count => {
+            if(count > 0) {
+                res.status(200).json(count);
+            } else {
+                res.status(404).json({ message: 'Zoo with specified id doesn\'t exist'});
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ message: 'Error deleting zoo', error: error });
+        });
+});
+
+// PUT for /api/zoos/:id
+// Returns number of records has been updated
+router.put('/:id', (req, res) => {
+    db('zoos')
+        .where({ id: req.params.id })
+        .update(req.body)
+        .then(count => {
+            if(count > 0) {
+                res.status(200).json(count);
+            } else {
+                res.status(404).json({ message: 'Zoo with specified id doesn\'t exist'});
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ message: 'Error updating zoo', error: error });
+        });
+});
+
 module.exports = router;
