@@ -14,4 +14,16 @@ const db = knex(knexConfig);
 
 // routes
 
+// GET for /api/zoos
+router.get('/', (req,res) => {
+    db('zoos')
+        .then(zoos => {
+            res.status(200).json(zoos);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+
+
 module.exports = router;
